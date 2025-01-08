@@ -140,8 +140,16 @@ export function ILSContainer({
 
   async function onMeetingJoined() {
     // console.log("onMeetingJoined");
-    const { changeWebcam, changeMic, muteMic, disableWebcam } =
-      mMeetingRef.current;
+    const {
+      changeWebcam,
+      changeMic,
+      muteMic,
+      disableWebcam,
+      localParticipant,
+    } = mMeetingRef.current;
+
+    // ensure only run for send_and_recv type
+    if (localParticipant.mode !== Constants.modes.SEND_AND_RECV) return;
 
     if (webcamEnabled && selectedWebcam.id) {
       await new Promise((resolve) => {
