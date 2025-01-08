@@ -126,7 +126,7 @@ export function MeetingDetailsScreen({
               className="w-full bg-gray-650 text-white px-2 py-3 rounded-xl mt-5"
               onClick={(e) => {
                 setIsJoinMeetingClicked(true);
-                setMeetingMode(Constants.modes.SEND_AND_RECV);
+                setMeetingMode(Constants.modes.RECV_ONLY);
               }}
             >
               Join as a Viewer
