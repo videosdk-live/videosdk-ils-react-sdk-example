@@ -61,7 +61,7 @@ const ToggleModeContainer = ({ participantId, participantMode }) => {
                       JSON.stringify({
                         mode:
                           participantMode === Constants.modes.SEND_AND_RECV
-                            ? Constants.modes.VIEWER
+                            ? Constants.modes.RECV_ONLY
                             : Constants.modes.SEND_AND_RECV,
                       })
                     );

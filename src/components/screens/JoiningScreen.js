@@ -255,7 +255,7 @@ export function JoiningScreen({
   }, [audioTrack]);
 
   useEffect(() => {
-    if (meetingMode === Constants.modes.VIEWER) {
+    if (meetingMode === Constants.modes.RECV_ONLY) {
       _handleTurnOffMic();
       _handleTurnOffWebcam();
     }
@@ -335,7 +335,7 @@ export function JoiningScreen({
             className={`rounded-full min-w-auto w-11 h-11 flex items-center justify-center ${
               onState ? "bg-white" : "bg-red-650 text-white"
             }`}
-            disabled={meetingMode === Constants.modes.VIEWER}
+            disabled={meetingMode === Constants.modes.RECV_ONLY}
           >
             {onState ? (
               <OnIcon fillcolor={onState ? "#050A0E" : "#fff"} />
@@ -392,7 +392,7 @@ export function JoiningScreen({
                           <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
                             {!webcamOn ? (
                               <p className="text-xl xl:text-lg 2xl:text-xl text-white">
-                                {meetingMode === Constants.modes.VIEWER
+                                {meetingMode === Constants.modes.RECV_ONLY
                                   ? "You are not permitted to use your microphone and camera."
                                   : "The camera is off"}
                               </p>

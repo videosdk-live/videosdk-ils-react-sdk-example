@@ -321,7 +321,7 @@ export function ILSContainer({
 
                 <SidebarConatiner
                   height={
-                    meetingMode === Constants.modes.VIEWER
+                    meetingMode === Constants.modes.RECV_ONLY
                       ? containerHeight - bottomBarHeight
                       : isMobile || isTab
                       ? containerHeight - bottomBarHeight
