@@ -101,7 +101,7 @@ function ILSParticipantView({ isPresenting }) {
               />
             </div>
             <p className="text-white text-center font-semibold text-2xl mt-0">
-              Waiting for host to start join.
+              Waiting for host to join.
             </p>
             {
               <p className="text-white text-center font-semibold text-2xl">
