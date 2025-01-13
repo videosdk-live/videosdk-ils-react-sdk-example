@@ -79,7 +79,7 @@ function ILSParticipantView({ isPresenting }) {
           isPresenting={isPresenting}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center relative">
           <div className="flex flex-col items-center justify-center absolute top-0 left-0 bottom-0 right-0 z-0">
             <div
               style={{

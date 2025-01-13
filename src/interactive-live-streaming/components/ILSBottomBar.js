@@ -522,7 +522,7 @@ export function ILSBottomBar({
     const { participants } = useMeeting();
     useEffect(() => {
       if (
-        meetingMode === Constants.modes.SEND_AND_RECV &&
+        meetingMode === Constants.modes.RECV_ONLY &&
         sideBarMode === "PARTICIPANTS"
       ) {
         setSideBarMode(null);
@@ -541,7 +541,7 @@ export function ILSBottomBar({
           );
         }}
         badge={`${new Map(participants)?.size}`}
-        disabled={meetingMode === Constants.modes.RECV_ONLY}
+        disabled={meetingMode !== Constants.modes.SEND_AND_RECV}
       />
     ) : (
       <OutlinedButton
@@ -554,7 +554,7 @@ export function ILSBottomBar({
         isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
         tooltip={"View \nParticipants"}
         badge={`${new Map(participants)?.size}`}
-        disabled={meetingMode === Constants.modes.SEND_AND_RECV}
+        disabled={meetingMode !== Constants.modes.SEND_AND_RECV}
       />
     );
   };
@@ -899,7 +899,7 @@ export function ILSBottomBar({
       </Transition>
     </div>
   ) : (
-    <div className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden">
+    <div className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden z-10">
       <MeetingIdCopyBTN />
 
       <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
