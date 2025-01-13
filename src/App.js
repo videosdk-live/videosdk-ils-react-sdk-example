@@ -35,7 +35,7 @@ const App = () => {
 
   return (
     <>
-      {isMeetingStarted ? (
+      {isMeetingStarted && token.length > 0 ? (
         <MeetingAppProvider
           selectedMic={selectedMic}
           selectedWebcam={selectedWebcam}
