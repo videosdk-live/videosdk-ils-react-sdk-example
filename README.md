@@ -1,6 +1,6 @@
-# 🚀 Interactive Live Streaming for React Native using Video SDK
+# 🚀 Interactive Live Streaming for React using Video SDK
 
-[![Documentation](https://img.shields.io/badge/Read-Documentation-blue)](https://docs.videosdk.live/react-native/guide/video-and-audio-calling-api-sdk/concept-and-architecture)
+[![Documentation](https://img.shields.io/badge/Read-Documentation-blue)](https://docs.videosdk.live/react/guide/video-and-audio-calling-api-sdk/concept-and-architecture)
 [![Discord](https://img.shields.io/discord/876774498798551130?label=Join%20on%20Discord)](https://discord.gg/bGZtAbwvab)
 [![Register](https://img.shields.io/badge/Contact-Know%20More-blue)](https://app.videosdk.live/signup)
 
@@ -133,10 +133,6 @@ Bingo, it's time to push the launch button.
 npm run start
 ```
 
-### TODO:
-
-Exampe Video
-
 ## 🧠 Key Concepts
 
 Understand the core components of our SDK:
@@ -163,7 +159,7 @@ The token is used to create and validate a meeting using API and also initialize
 
 ## 📖 Examples
 
-- [**React SDK Example**](https://github.com/videosdk-live/videosdk-ils-react-sdk-example)
+- [**React Native SDK Example**](https://github.com/videosdk-live/videosdk-ils-react-native-sdk-example)
 - [**Android Java SDK Example**](https://github.com/videosdk-live/videosdk-ils-android-sdk-example)
 - [**iOS SDK Example**](https://github.com/videosdk-live/videosdk-ils-iOS-sdk-example)
 
