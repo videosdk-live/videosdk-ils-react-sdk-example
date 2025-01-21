@@ -66,7 +66,7 @@ const ChatInput = ({ inputHeight }) => {
             }}
           >
             <PaperAirplaneIcon
-              className={`w-6 h-6 ${
+              className={`w-6 h-6 -rotate-90 ${
                 message.length < 2 ? "text-gray-500 " : "text-white"
               }`}
             />
@@ -82,7 +82,7 @@ const ChatInput = ({ inputHeight }) => {
           onChange={(e) => {
             setMessage(e.target.value);
           }}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               const messageText = message.trim();

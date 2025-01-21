@@ -110,7 +110,7 @@ export function MeetingDetailsScreen({
                 setMeetingMode(Constants.modes.SEND_AND_RECV);
               }}
             >
-              Create a meeting
+              Create live stream
             </button>
 
             <button
