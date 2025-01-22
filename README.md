@@ -133,6 +133,12 @@ Bingo, it's time to push the launch button.
 npm run start
 ```
 
+
+### Result of Example:
+
+https://github.com/user-attachments/assets/50836404-5484-4e0d-abe7-6c5c6633d3a7
+
+
 ## 🧠 Key Concepts
 
 Understand the core components of our SDK:
