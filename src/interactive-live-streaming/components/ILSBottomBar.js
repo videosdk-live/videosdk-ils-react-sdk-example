@@ -48,8 +48,12 @@ export function ILSBottomBar({
   const { sideBarMode, setSideBarMode } = useMeetingAppContext();
   const RaiseHandBTN = ({ isMobile, isTab }) => {
     const { publish } = usePubSub("RAISE_HAND");
-    const RaiseHand = () => {
-      publish("Raise Hand");
+    const RaiseHand = async () => {
+      try {
+        await publish("Raise Hand");
+      } catch (err) {
+        console.error('publish failed', err);
+      }
     };
 
     return isMobile || isTab ? (
@@ -98,13 +102,21 @@ export function ILSBottomBar({
       [recordingState]
     );
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isRecording = isRecordingRef.current;
 
       if (isRecording) {
-        stopRecording();
+        try {
+          await stopRecording();
+        } catch (err) {
+          console.error('stopRecording failed', err);
+        }
       } else {
-        startRecording();
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error('startRecording failed', err);
+        }
       }
     };
 
@@ -137,7 +149,12 @@ export function ILSBottomBar({
     const changeMic = mMeeting?.changeMic;
 
     const getMics = async (mGetMics) => {
-      const mics = await mGetMics();
+      let mics;
+      try {
+        mics = await mGetMics();
+      } catch (err) {
+        console.error('getMics failed', err);
+      }
 
       mics && mics?.length && setMics(mics);
     };
@@ -160,8 +177,12 @@ export function ILSBottomBar({
       <>
         <OutlinedButton
           Icon={localMicOn ? MicOnIcon : MicOffIcon}
-          onClick={() => {
-            mMeeting.toggleMic();
+          onClick={async () => {
+            try {
+              await mMeeting.toggleMic();
+            } catch (err) {
+              console.error('toggleMic failed', err);
+            }
           }}
           bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
           borderColor={localMicOn && "#ffffff33"}
@@ -227,9 +248,13 @@ export function ILSBottomBar({
                                           "bg-gray-150"
                                         }`}
                                         key={`mics_${deviceId}`}
-                                        onClick={() => {
+                                        onClick={async () => {
                                           setSelectMicDeviceId(deviceId);
-                                          changeMic(deviceId);
+                                          try {
+                                            await changeMic(deviceId);
+                                          } catch (err) {
+                                            console.error('changeMic failed', err);
+                                          }
                                           close();
                                         }}
                                       >
@@ -275,7 +300,12 @@ export function ILSBottomBar({
     const changeWebcam = mMeeting?.changeWebcam;
 
     const getWebcams = async (mGetWebcams) => {
-      const webcams = await mGetWebcams();
+      let webcams;
+      try {
+        webcams = await mGetWebcams();
+      } catch (err) {
+        console.error('getWebcams failed', err);
+      }
 
       webcams && webcams?.length && setWebcams(webcams);
     };
@@ -309,7 +339,11 @@ export function ILSBottomBar({
                 cameraId: selectWebcamDeviceId,
               });
             }
-            mMeeting.toggleWebcam(track);
+            try {
+              await mMeeting.toggleWebcam(track);
+            } catch (err) {
+              console.error('toggleWebcam failed', err);
+            }
           }}
           bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
           borderColor={localWebcamOn && "#ffffff33"}
@@ -385,7 +419,11 @@ export function ILSBottomBar({
                                               multiStream: false,
                                               cameraId: deviceId,
                                             });
-                                          changeWebcam(track);
+                                          try {
+                                            await changeWebcam(track);
+                                          } catch (err) {
+                                            console.error('changeWebcam failed', err);
+                                          }
                                           close();
                                         }}
                                       >
@@ -443,8 +481,12 @@ export function ILSBottomBar({
         }
         isFocused={localScreenShareOn}
         Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
+        onClick={async () => {
+          try {
+            await toggleScreenShare();
+          } catch (err) {
+            console.error('toggleScreenShare failed', err);
+          }
         }}
         disabled={
           presenterId
@@ -459,8 +501,12 @@ export function ILSBottomBar({
     ) : (
       <OutlinedButton
         Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
+        onClick={async () => {
+          try {
+            await toggleScreenShare();
+          } catch (err) {
+            console.error('toggleScreenShare failed', err);
+          }
         }}
         isFocused={localScreenShareOn}
         tooltip={
@@ -482,8 +528,12 @@ export function ILSBottomBar({
       <OutlinedButton
         Icon={EndIcon}
         bgColor="bg-red-150"
-        onClick={() => {
-          leave();
+        onClick={async () => {
+          try {
+            await leave();
+          } catch (err) {
+            console.error('leave failed', err);
+          }
           setIsMeetingLeft(true);
         }}
         tooltip="Leave Meeting"
@@ -590,11 +640,15 @@ export function ILSBottomBar({
   const ILSBTN = ({ isMobile, isTab }) => {
     const { changeMode, meeting } = useMeeting({});
 
-    const _handleClick = () => {
-      if (meeting.localParticipant.mode === Constants.modes.SEND_AND_RECV) {
-        changeMode(Constants.modes.RECV_ONLY);
-      } else {
-        changeMode(Constants.modes.SEND_AND_RECV);
+    const _handleClick = async () => {
+      try {
+        if (meeting.localParticipant.mode === Constants.modes.SEND_AND_RECV) {
+          await changeMode(Constants.modes.RECV_ONLY);
+        } else {
+          await changeMode(Constants.modes.SEND_AND_RECV);
+        }
+      } catch (err) {
+        console.error('changeMode failed', err);
       }
     };
 
@@ -676,9 +730,13 @@ export function ILSBottomBar({
                         <button
                           key={`reaction-${emojiName}`}
                           className="mx-2"
-                          onClick={() => {
+                          onClick={async () => {
                             sendEmoji(emojiName);
-                            publish(emojiName);
+                            try {
+                              await publish(emojiName);
+                            } catch (err) {
+                              console.error('publish failed', err);
+                            }
                           }}
                         >
                           <p className="text-3xl">{emoji}</p>

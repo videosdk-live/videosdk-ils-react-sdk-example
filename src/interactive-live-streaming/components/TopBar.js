@@ -40,13 +40,21 @@ export function TopBar({ topBarHeight }) {
       [recordingState]
     );
 
-    const _handleClick = () => {
+    const _handleClick = async () => {
       const isRecording = isRecordingRef.current;
 
       if (isRecording) {
-        stopRecording();
+        try {
+          await stopRecording();
+        } catch (err) {
+          console.error('stopRecording failed', err);
+        }
       } else {
-        startRecording();
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error('startRecording failed', err);
+        }
       }
     };
 
@@ -76,11 +84,15 @@ export function TopBar({ topBarHeight }) {
   const WebrtcViewerSwitchBTN = ({ isMobile, isTab }) => {
     const { meeting, changeMode } = useMeeting({});
 
-    const _handleClick = () => {
-      if (meeting.localParticipant.mode === Constants.modes.SEND_AND_RECV) {
-        changeMode(Constants.modes.RECV_ONLY);
-      } else {
-        changeMode(Constants.modes.SEND_AND_RECV);
+    const _handleClick = async () => {
+      try {
+        if (meeting.localParticipant.mode === Constants.modes.SEND_AND_RECV) {
+          await changeMode(Constants.modes.RECV_ONLY);
+        } else {
+          await changeMode(Constants.modes.SEND_AND_RECV);
+        }
+      } catch (err) {
+        console.error('changeMode failed', err);
       }
     };
 

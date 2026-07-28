@@ -153,7 +153,13 @@ export function ILSContainer({
 
     if (webcamEnabled && selectedWebcam.id) {
       await new Promise((resolve) => {
-        disableWebcam();
+        (async () => {
+          try {
+            await disableWebcam();
+          } catch (err) {
+            console.error('disableWebcam failed', err);
+          }
+        })();
         setTimeout(async () => {
           const track = await createCameraVideoTrack({
             optimizationMode: "motion",
@@ -162,7 +168,11 @@ export function ILSContainer({
             cameraId: selectedWebcam.id,
             multiStream: false,
           });
-          changeWebcam(track);
+          try {
+            await changeWebcam(track);
+          } catch (err) {
+            console.error('changeWebcam failed', err);
+          }
           resolve();
         }, 500);
       });
@@ -170,9 +180,19 @@ export function ILSContainer({
 
     if (micEnabled && selectedMic.id) {
       await new Promise((resolve) => {
-        muteMic();
-        setTimeout(() => {
-          changeMic(selectedMic.id);
+        (async () => {
+          try {
+            await muteMic();
+          } catch (err) {
+            console.error('muteMic failed', err);
+          }
+        })();
+        setTimeout(async () => {
+          try {
+            await changeMic(selectedMic.id);
+          } catch (err) {
+            console.error('changeMic failed', err);
+          }
           resolve();
         }, 500);
       });
