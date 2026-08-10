@@ -66,12 +66,12 @@ export function ILSContainer({
   const sideBarContainerWidth = isXLDesktop
     ? 400
     : isLGDesktop
-    ? 360
-    : isTab
-    ? 320
-    : isMobile
-    ? 280
-    : 240;
+      ? 360
+      : isTab
+        ? 320
+        : isMobile
+          ? 280
+          : 240;
 
   useEffect(() => {
     containerRef.current?.offsetHeight &&
@@ -114,15 +114,10 @@ export function ILSContainer({
           draggable: true,
           progress: undefined,
           theme: "light",
-        }
+        },
       );
     }
   };
-
-  function onParticipantJoined(participant) {
-    // Change quality to low, med or high based on resolution
-    participant && participant.setQuality("high");
-  }
 
   function onEntryResponded(participantId, name) {
     // console.log(" onEntryResponded", participantId, name);
@@ -157,7 +152,7 @@ export function ILSContainer({
           try {
             await disableWebcam();
           } catch (err) {
-            console.error('disableWebcam failed', err);
+            console.error("disableWebcam failed", err);
           }
         })();
         setTimeout(async () => {
@@ -171,7 +166,7 @@ export function ILSContainer({
           try {
             await changeWebcam(track);
           } catch (err) {
-            console.error('changeWebcam failed', err);
+            console.error("changeWebcam failed", err);
           }
           resolve();
         }, 500);
@@ -184,14 +179,14 @@ export function ILSContainer({
           try {
             await muteMic();
           } catch (err) {
-            console.error('muteMic failed', err);
+            console.error("muteMic failed", err);
           }
         })();
         setTimeout(async () => {
           try {
             await changeMic(selectedMic.id);
           } catch (err) {
-            console.error('changeMic failed', err);
+            console.error("changeMic failed", err);
           }
           resolve();
         }, 500);
@@ -216,7 +211,7 @@ export function ILSContainer({
     new Audio(
       isCriticalError
         ? `https://static.videosdk.live/prebuilt/notification_critical_err.mp3`
-        : `https://static.videosdk.live/prebuilt/notification_err.mp3`
+        : `https://static.videosdk.live/prebuilt/notification_err.mp3`,
     ).play();
 
     setMeetingErrorVisible(true);
@@ -227,7 +222,6 @@ export function ILSContainer({
   };
 
   const mMeeting = useMeeting({
-    onParticipantJoined,
     onEntryResponded,
     onMeetingJoined,
     onMeetingLeft,
@@ -250,7 +244,7 @@ export function ILSContainer({
       const isLocal = senderId === localParticipantId;
 
       new Audio(
-        `https://static.videosdk.live/prebuilt/notification.mp3`
+        `https://static.videosdk.live/prebuilt/notification.mp3`,
       ).play();
 
       toast(`${isLocal ? "You" : nameTructed(senderName, 15)} raised hand 🖐🏼`, {
@@ -278,12 +272,12 @@ export function ILSContainer({
 
       if (!isLocal) {
         new Audio(
-          `https://static.videosdk.live/prebuilt/notification.mp3`
+          `https://static.videosdk.live/prebuilt/notification.mp3`,
         ).play();
 
         toast(
           `${trimSnackBarText(
-            `${nameTructed(senderName, 15)} says: ${message}`
+            `${nameTructed(senderName, 15)} says: ${message}`,
           )}`,
           {
             position: "bottom-left",
@@ -294,7 +288,7 @@ export function ILSContainer({
             draggable: true,
             progress: undefined,
             theme: "light",
-          }
+          },
         );
       }
     },
@@ -341,9 +335,7 @@ export function ILSContainer({
 
                 <SidebarConatiner
                   height={
-                    meetingMode === Constants.modes.RECV_ONLY
-                      ? containerHeight - bottomBarHeight
-                      : isMobile || isTab
+                    isMobile || isTab
                       ? containerHeight - bottomBarHeight
                       : containerHeight - topBarHeight - bottomBarHeight
                   }

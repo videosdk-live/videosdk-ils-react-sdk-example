@@ -906,10 +906,10 @@ export function ILSBottomBar({
                 <Dialog.Panel className="w-screen transform overflow-hidden bg-gray-800 shadow-xl transition-all">
                   <div className="grid container bg-gray-800 py-6">
                     <div className="grid grid-cols-12 gap-2">
-                      {otherFeatures.map(({ icon, index }) => {
+                      {otherFeatures.map(({ icon }) => {
                         return (
                           <div
-                            key={index}
+                            key={icon}
                             className={`grid items-center justify-center ${
                               icon === BottomBarButtonTypes.MEETING_ID_COPY
                                 ? "col-span-7 sm:col-span-5 md:col-span-3"
