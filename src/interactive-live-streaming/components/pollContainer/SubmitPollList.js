@@ -202,7 +202,7 @@ const SubmitPollListItem = ({ poll }) => {
                   const isCorrectOption = option.isCorrect;
 
                   return (
-                    <div className="flex mb-3">
+                    <div key={option.optionId} className="flex mb-3">
                       <div className="mt-0 w-full">
                         <div className="flex items-center">
                           <p className="text-[15px] text-white font-normal">
@@ -260,7 +260,7 @@ const SubmitPollListItem = ({ poll }) => {
                 })
               : poll?.options.map((option) => {
                   return (
-                    <div className="flex mb-3 items-center">
+                    <div key={option.optionId} className="flex mb-3 items-center">
                       <Input
                         type="checkbox"
                         onClick={async () => {

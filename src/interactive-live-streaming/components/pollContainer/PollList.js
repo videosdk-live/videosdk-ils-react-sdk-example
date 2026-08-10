@@ -180,6 +180,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
 
             return (
               <div
+                key={item.optionId}
                 style={{
                   marginTop: j === 0 ? equalSpacing : equalSpacing / 2,
                 }}

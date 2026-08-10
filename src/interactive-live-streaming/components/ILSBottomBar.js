@@ -195,25 +195,21 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
-                        <div
-                          ref={btnRef}
-                          onMouseEnter={openTooltip}
-                          onMouseLeave={closeTooltip}
-                        >
-                          <button
-                            onClick={(e) => {
-                              getMics(mMeeting.getMics);
-                            }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: mMeeting.localMicOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
-                        </div>
+                      <Popover.Button
+                        ref={btnRef}
+                        onMouseEnter={openTooltip}
+                        onMouseLeave={closeTooltip}
+                        onClick={() => {
+                          getMics(mMeeting.getMics);
+                        }}
+                        className="flex items-center justify-center mt-1 mr-1"
+                      >
+                        <ChevronDownIcon
+                          className="h-4 w-4"
+                          style={{
+                            color: mMeeting.localMicOn ? "white" : "black",
+                          }}
+                        />
                       </Popover.Button>
                       <Transition
                         as={Fragment}
@@ -247,7 +243,6 @@ export function ILSBottomBar({
                                           deviceId === selectMicDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`mics_${deviceId}`}
                                         onClick={async () => {
                                           setSelectMicDeviceId(deviceId);
                                           try {
@@ -356,25 +351,21 @@ export function ILSBottomBar({
                 <Popover className="relative">
                   {({ close }) => (
                     <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
-                        <div
-                          ref={btnRef}
-                          onMouseEnter={openTooltip}
-                          onMouseLeave={closeTooltip}
-                        >
-                          <button
-                            onClick={(e) => {
-                              getWebcams(mMeeting?.getWebcams);
-                            }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: localWebcamOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
-                        </div>
+                      <Popover.Button
+                        ref={btnRef}
+                        onMouseEnter={openTooltip}
+                        onMouseLeave={closeTooltip}
+                        onClick={() => {
+                          getWebcams(mMeeting?.getWebcams);
+                        }}
+                        className="flex items-center justify-center mt-1 mr-1"
+                      >
+                        <ChevronDownIcon
+                          className="h-4 w-4"
+                          style={{
+                            color: localWebcamOn ? "white" : "black",
+                          }}
+                        />
                       </Popover.Button>
                       <Transition
                         as={Fragment}
@@ -408,7 +399,6 @@ export function ILSBottomBar({
                                           deviceId === selectWebcamDeviceId &&
                                           "bg-gray-150"
                                         }`}
-                                        key={`output_webcams_${deviceId}`}
                                         onClick={async () => {
                                           setSelectWebcamDeviceId(deviceId);
                                           const track =
@@ -704,7 +694,7 @@ export function ILSBottomBar({
         <Popover className="relative">
           {({ open }) => (
             <>
-              <Popover.Button>
+              <Popover.Button as="div">
                 <OutlinedButton
                   Icon={ReactionIcon}
                   onClick={(e) => {

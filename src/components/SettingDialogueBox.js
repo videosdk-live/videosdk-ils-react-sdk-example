@@ -239,18 +239,16 @@ export default function SettingDialogueBox({
                                     <Popover className="relative">
                                       {({ close }) => (
                                         <>
-                                          <Popover.Button className="flex  w-full ">
-                                            <button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
-                                              {selectedMicLabel
-                                                ? selectedMicLabel
-                                                : "Select"}
-                                              <ChevronDownIcon
-                                                className="h-4 w-4"
-                                                style={{
-                                                  color: "white",
-                                                }}
-                                              />
-                                            </button>
+                                          <Popover.Button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
+                                            {selectedMicLabel
+                                              ? selectedMicLabel
+                                              : "Select"}
+                                            <ChevronDownIcon
+                                              className="h-4 w-4"
+                                              style={{
+                                                color: "white",
+                                              }}
+                                            />
                                           </Popover.Button>
                                           <Transition
                                             as={Fragment}
@@ -274,14 +272,13 @@ export default function SettingDialogueBox({
                                                             item?.kind ===
                                                               "audioinput" && (
                                                               <div
-                                                                key={`mics_${index}`}
-                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left 
+                                                                key={`mics_${item?.deviceId}`}
+                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left
                                                             `}
                                                               >
                                                                 <button
-                                                                  className={`flex flex-1 w-full 
+                                                                  className={`flex flex-1 w-full
                                                               `}
-                                                                  key={`mics_${index}`}
                                                                   value={
                                                                     item?.deviceId
                                                                   }
@@ -358,18 +355,16 @@ export default function SettingDialogueBox({
                                     <Popover className="relative">
                                       {({ close }) => (
                                         <>
-                                          <Popover.Button className="flex  w-full ">
-                                            <button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
-                                              {selectedWebcamLabel
-                                                ? selectedWebcamLabel
-                                                : "Select"}
-                                              <ChevronDownIcon
-                                                className="h-4 w-4"
-                                                style={{
-                                                  color: "white",
-                                                }}
-                                              />
-                                            </button>
+                                          <Popover.Button className="flex items-center justify-between text-white w-full border border-gray-300 rounded py-3 px-2">
+                                            {selectedWebcamLabel
+                                              ? selectedWebcamLabel
+                                              : "Select"}
+                                            <ChevronDownIcon
+                                              className="h-4 w-4"
+                                              style={{
+                                                color: "white",
+                                              }}
+                                            />
                                           </Popover.Button>
                                           <Transition
                                             as={Fragment}
@@ -393,14 +388,13 @@ export default function SettingDialogueBox({
                                                             item?.kind ===
                                                               "videoinput" && (
                                                               <div
-                                                                key={`webcam_${index}`}
-                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left 
+                                                                key={`webcam_${item?.deviceId}`}
+                                                                className={`px-3 py-1 my-1 pl-6 text-white text-left
                                                             `}
                                                               >
                                                                 <button
-                                                                  className={`flex flex-1 w-full 
+                                                                  className={`flex flex-1 w-full
                                                               `}
-                                                                  key={`webcam_${index}`}
                                                                   value={
                                                                     item?.deviceId
                                                                   }
