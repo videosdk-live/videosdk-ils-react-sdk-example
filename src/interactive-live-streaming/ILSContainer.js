@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
-import {
-  Constants,
-  createCameraVideoTrack,
-  useMeeting,
-  usePubSub,
-} from "@videosdk.live/react-sdk";
+import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
 import { PresenterView } from "../components/PresenterView";
 import { nameTructed, trimSnackBarText } from "../utils/helper";
@@ -25,18 +20,22 @@ import ModeListner from "./components/ModeListner";
 export function ILSContainer({
   onMeetingLeave,
   setIsMeetingLeft,
-  selectedMic,
-  selectedWebcam,
-  selectWebcamDeviceId,
-  setSelectWebcamDeviceId,
-  selectMicDeviceId,
-  setSelectMicDeviceId,
-  micEnabled,
-  webcamEnabled,
   meetingMode,
   setMeetingMode,
 }) {
-  const { useRaisedHandParticipants } = useMeetingAppContext();
+  const {
+    useRaisedHandParticipants,
+    selectedMic,
+    selectedWebcam,
+    setSelectedMic,
+    setSelectedWebcam,
+  } = useMeetingAppContext();
+
+  const selectWebcamDeviceId = selectedWebcam?.id;
+  const setSelectWebcamDeviceId = (id) =>
+    setSelectedWebcam((s) => ({ ...s, id }));
+  const selectMicDeviceId = selectedMic?.id;
+  const setSelectMicDeviceId = (id) => setSelectedMic((s) => ({ ...s, id }));
   const bottomBarHeight = 60;
   const topBarHeight = 60;
 
@@ -133,66 +132,6 @@ export function ILSContainer({
     }
   }
 
-  async function onMeetingJoined() {
-    // console.log("onMeetingJoined");
-    const {
-      changeWebcam,
-      changeMic,
-      muteMic,
-      disableWebcam,
-      localParticipant,
-    } = mMeetingRef.current;
-
-    // ensure only run for send_and_recv type
-    if (localParticipant.mode !== Constants.modes.SEND_AND_RECV) return;
-
-    if (webcamEnabled && selectedWebcam.id) {
-      await new Promise((resolve) => {
-        (async () => {
-          try {
-            await disableWebcam();
-          } catch (err) {
-            console.error("disableWebcam failed", err);
-          }
-        })();
-        setTimeout(async () => {
-          const track = await createCameraVideoTrack({
-            optimizationMode: "motion",
-            encoderConfig: "h540p_w960p",
-            facingMode: "environment",
-            cameraId: selectedWebcam.id,
-            multiStream: false,
-          });
-          try {
-            await changeWebcam(track);
-          } catch (err) {
-            console.error("changeWebcam failed", err);
-          }
-          resolve();
-        }, 500);
-      });
-    }
-
-    if (micEnabled && selectedMic.id) {
-      await new Promise((resolve) => {
-        (async () => {
-          try {
-            await muteMic();
-          } catch (err) {
-            console.error("muteMic failed", err);
-          }
-        })();
-        setTimeout(async () => {
-          try {
-            await changeMic(selectedMic.id);
-          } catch (err) {
-            console.error("changeMic failed", err);
-          }
-          resolve();
-        }, 500);
-      });
-    }
-  }
   function onMeetingLeft() {
     // console.log("onMeetingLeft");
     onMeetingLeave();
@@ -223,7 +162,18 @@ export function ILSContainer({
 
   const mMeeting = useMeeting({
     onEntryResponded,
-    onMeetingJoined,
+    onMeetingStateChanged: ({ state }) => {
+      toast(`Meeting is in ${state} state`, {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
     onMeetingLeft,
     onError: _handleOnError,
     onRecordingStateChanged: _handleOnRecordingStateChanged,

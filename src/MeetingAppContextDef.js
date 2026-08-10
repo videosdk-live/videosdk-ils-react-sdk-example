@@ -17,6 +17,19 @@ export const MeetingAppProvider = ({ children }) => {
   const [draftPolls, setDraftPolls] = useState([]);
   const [createdPolls, setCreatedPolls] = useState([]);
   const [endedPolls, setEndedPolls] = useState([]);
+  const [selectedMic, setSelectedMic] = useState({ id: null, label: null });
+  const [selectedWebcam, setSelectedWebcam] = useState({
+    id: null,
+    label: null,
+  });
+  const [selectedSpeaker, setSelectedSpeaker] = useState({
+    id: null,
+    label: null,
+  });
+  const [isCameraPermissionAllowed, setIsCameraPermissionAllowed] =
+    useState(null);
+  const [isMicrophonePermissionAllowed, setIsMicrophonePermissionAllowed] =
+    useState(null);
 
   const polls = useMemo(
     () =>
@@ -87,12 +100,22 @@ export const MeetingAppProvider = ({ children }) => {
         createdPolls,
         endedPolls,
         sideBarMode,
+        selectedMic,
+        selectedWebcam,
+        selectedSpeaker,
+        isCameraPermissionAllowed,
+        isMicrophonePermissionAllowed,
         // setters
         setRaisedHandsParticipants,
         setDraftPolls,
         setCreatedPolls,
         setEndedPolls,
         setSideBarMode,
+        setSelectedMic,
+        setSelectedWebcam,
+        setSelectedSpeaker,
+        setIsCameraPermissionAllowed,
+        setIsMicrophonePermissionAllowed,
 
         polls,
         useRaisedHandParticipants,

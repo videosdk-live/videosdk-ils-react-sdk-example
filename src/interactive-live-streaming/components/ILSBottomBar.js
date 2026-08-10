@@ -326,13 +326,17 @@ export function ILSBottomBar({
           onClick={async () => {
             let track;
             if (!localWebcamOn) {
-              track = await createCameraVideoTrack({
-                optimizationMode: "motion",
-                encoderConfig: "h540p_w960p",
-                facingMode: "environment",
-                multiStream: false,
-                cameraId: selectWebcamDeviceId,
-              });
+              try {
+                track = await createCameraVideoTrack({
+                  optimizationMode: "motion",
+                  encoderConfig: "h540p_w960p",
+                  facingMode: "environment",
+                  multiStream: false,
+                  cameraId: selectWebcamDeviceId,
+                });
+              } catch (err) {
+                console.error('createCameraVideoTrack failed', err);
+              }
             }
             try {
               await mMeeting.toggleWebcam(track);
@@ -401,18 +405,18 @@ export function ILSBottomBar({
                                         }`}
                                         onClick={async () => {
                                           setSelectWebcamDeviceId(deviceId);
-                                          const track =
-                                            await createCameraVideoTrack({
-                                              optimizationMode: "motion",
-                                              encoderConfig: "h540p_w960p",
-                                              facingMode: "environment",
-                                              multiStream: false,
-                                              cameraId: deviceId,
-                                            });
                                           try {
+                                            const track =
+                                              await createCameraVideoTrack({
+                                                optimizationMode: "motion",
+                                                encoderConfig: "h540p_w960p",
+                                                facingMode: "environment",
+                                                multiStream: false,
+                                                cameraId: deviceId,
+                                              });
                                             await changeWebcam(track);
                                           } catch (err) {
-                                            console.error('changeWebcam failed', err);
+                                            console.error('createCameraVideoTrack/changeWebcam failed', err);
                                           }
                                           close();
                                         }}
