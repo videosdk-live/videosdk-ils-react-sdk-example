@@ -29,8 +29,6 @@ const App = () => {
     }
   }, [isMobile]);
 
-  const isRecvOnly = meetingMode === Constants.modes.RECV_ONLY;
-
   return (
     <MeetingAppProvider>
       {isMeetingStarted && token.length > 0 ? (
@@ -56,6 +54,7 @@ const App = () => {
               setParticipantName("");
               setWebcamOn(false);
               setMicOn(false);
+              setMeetingMode(Constants.modes.SEND_AND_RECV);
               setCustomVideoStream(null);
               setCustomAudioStream(null);
               setMeetingStarted(false);
