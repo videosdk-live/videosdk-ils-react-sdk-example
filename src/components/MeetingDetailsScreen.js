@@ -7,8 +7,6 @@ export function MeetingDetailsScreen({
   _handleOnCreateMeeting,
   participantName,
   setParticipantName,
-  videoTrack,
-  setVideoTrack,
   onClickStartMeeting,
   setMeetingMode,
   meetingMode,
@@ -76,10 +74,6 @@ export function MeetingDetailsScreen({
             }  text-white px-2 py-3 rounded-xl mt-5`}
             onClick={(e) => {
               if (iscreateMeetingClicked) {
-                if (videoTrack) {
-                  videoTrack.stop();
-                  setVideoTrack(null);
-                }
                 onClickStartMeeting();
               } else {
                 if (studioCode.match("\\w{4}\\-\\w{4}\\-\\w{4}")) {

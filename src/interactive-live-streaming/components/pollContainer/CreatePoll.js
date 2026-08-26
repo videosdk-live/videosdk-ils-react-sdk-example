@@ -69,7 +69,7 @@ const CreatePollPart = ({
             <div>
               {options.map((item) => {
                 return (
-                  <div className="flex items-center mb-4">
+                  <div key={item.optionId} className="flex items-center mb-4">
                     {isMarkAsCorrectChecked && item.option.length !== 0 && (
                       <Input
                         type="checkbox"
@@ -109,7 +109,7 @@ const CreatePollPart = ({
                             : "bg-customGray-900"
                         } text-white focus:ring-0 rounded-l`}
                         placeholder="Add your options"
-                        autocomplete="off"
+                        autoComplete="off"
                         value={item.option}
                         onBlur={_handleKeyDown}
                         onChange={(e) => {
@@ -188,7 +188,6 @@ const CreatePollPart = ({
             <input
               type={"text"}
               placeholder="Add your options"
-              inputref={createOptionRef}
               className={`border-none ${
                 option.isCorrect && option.option
                   ? "bg-purple-550"
@@ -218,7 +217,7 @@ const CreatePollPart = ({
               <input
                 type={"text"}
                 placeholder="Add your options"
-                autocomplete="off"
+                autoComplete="off"
                 onChange={(e) => {}}
                 onFocus={(e) => {
                   _handleKeyDown(e);
@@ -284,7 +283,11 @@ const CreatePollPart = ({
                   >
                     {pollTimerArr.map((item) => {
                       return (
-                        <option className="cursor-pointer" value={item.value}>
+                        <option
+                          key={item.value}
+                          className="cursor-pointer"
+                          value={item.value}
+                        >
                           {item.Label}
                         </option>
                       );
@@ -394,7 +397,7 @@ const PollButtonPart = ({
     <div className="flex xl:pt-4 xl:pb-2 xl:pl-4 xl:pr-4 pt-2 pb-1 pl-2 pr-2">
       <button
         className="w-1/2 bg-gray-700 text-white p-2 rounded"
-        onClick={() => {
+        onClick={async () => {
           const isValid = handleValidation({
             question,
             options,
@@ -404,23 +407,27 @@ const PollButtonPart = ({
           });
 
           if (isValid) {
-            publishDraftPoll(
-              {
-                id: uuid(),
-                question: question.trim(),
-                options: options.map((option) => ({
-                  ...option,
-                  option: option.option.trim(),
-                })),
-                timeout: isSetTimerChecked ? timer : 0,
-                hasCorrectAnswer: isMarkAsCorrectChecked ? true : false,
-                hasTimer: isSetTimerChecked ? true : false,
-                isActive: false,
-              },
-              {
-                persist: true,
-              }
-            );
+            try {
+              await publishDraftPoll(
+                {
+                  id: uuid(),
+                  question: question.trim(),
+                  options: options.map((option) => ({
+                    ...option,
+                    option: option.option.trim(),
+                  })),
+                  timeout: isSetTimerChecked ? timer : 0,
+                  hasCorrectAnswer: isMarkAsCorrectChecked ? true : false,
+                  hasTimer: isSetTimerChecked ? true : false,
+                  isActive: false,
+                },
+                {
+                  persist: true,
+                }
+              );
+            } catch (err) {
+              console.error('publishDraftPoll failed', err);
+            }
             setSideBarMode(sideBarModes.POLLS);
           }
         }}
@@ -429,7 +436,7 @@ const PollButtonPart = ({
       </button>
       <button
         className="w-1/2 ml-2 p-2 text-white bg-purple-550 rounded"
-        onClick={() => {
+        onClick={async () => {
           const isValid = handleValidation({
             question,
             options,
@@ -439,22 +446,26 @@ const PollButtonPart = ({
           });
 
           if (isValid) {
-            publishCreatePoll(
-              {
-                id: uuid(),
-                question: question.trim(),
-                options: options.map((option) => ({
-                  ...option,
-                  option: option.option.trim(),
-                })),
-                timeout: isSetTimerChecked ? timer : 0,
-                hasCorrectAnswer: isMarkAsCorrectChecked ? true : false,
-                hasTimer: isSetTimerChecked ? true : false,
-                isActive: true,
-                index: polls.length + 1,
-              },
-              { persist: true }
-            );
+            try {
+              await publishCreatePoll(
+                {
+                  id: uuid(),
+                  question: question.trim(),
+                  options: options.map((option) => ({
+                    ...option,
+                    option: option.option.trim(),
+                  })),
+                  timeout: isSetTimerChecked ? timer : 0,
+                  hasCorrectAnswer: isMarkAsCorrectChecked ? true : false,
+                  hasTimer: isSetTimerChecked ? true : false,
+                  isActive: true,
+                  index: polls.length + 1,
+                },
+                { persist: true }
+              );
+            } catch (err) {
+              console.error('publishCreatePoll failed', err);
+            }
             setSideBarMode(sideBarModes.POLLS);
           }
         }}

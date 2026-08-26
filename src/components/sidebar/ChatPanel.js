@@ -54,13 +54,17 @@ const ChatInput = ({ inputHeight }) => {
             disabled={message.length < 2}
             type="submit"
             className="p-1 focus:outline-none focus:shadow-outline"
-            onClick={() => {
+            onClick={async () => {
               const messageText = message.trim();
               if (messageText.length > 0) {
-                publish(messageText, { persist: true });
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
+                try {
+                  await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
+                } catch (err) {
+                  console.error('publish failed', err);
+                }
                 input.current?.focus();
               }
             }}
@@ -76,22 +80,26 @@ const ChatInput = ({ inputHeight }) => {
           type="text"
           className="py-4 text-base text-white border-gray-400 border bg-gray-750 rounded pr-10 pl-2 focus:outline-none w-full"
           placeholder="Write your message"
-          autocomplete="off"
+          autoComplete="off"
           ref={input}
           value={message}
           onChange={(e) => {
             setMessage(e.target.value);
           }}
-          onKeyDown={(e) => {
+          onKeyDown={async (e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               const messageText = message.trim();
 
               if (messageText.length > 0) {
-                publish(messageText, { persist: true });
-                setTimeout(() => {
-                  setMessage("");
-                }, 100);
+                try {
+                  await publish(messageText, { persist: true });
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 100);
+                } catch (err) {
+                  console.error('publish failed', err);
+                }
                 input.current?.focus();
               }
             }

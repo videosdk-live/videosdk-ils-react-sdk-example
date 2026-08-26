@@ -180,6 +180,7 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
 
             return (
               <div
+                key={item.optionId}
                 style={{
                   marginTop: j === 0 ? equalSpacing : equalSpacing / 2,
                 }}
@@ -234,13 +235,17 @@ const Poll = ({ poll, isDraft, publishDraftPoll }) => {
               <button
                 className="border border-gray-100 px-1.5 py-0.5 rounded text-white"
                 style={{ marginTop: equalSpacing + 2 }}
-                onClick={() => {
-                  EndPublish(
-                    {
-                      pollId: poll.id,
-                    },
-                    { persist: true }
-                  );
+                onClick={async () => {
+                  try {
+                    await EndPublish(
+                      {
+                        pollId: poll.id,
+                      },
+                      { persist: true }
+                    );
+                  } catch (err) {
+                    console.error('EndPublish failed', err);
+                  }
                 }}
               >
                 End the Poll
@@ -276,26 +281,30 @@ const PollList = ({ panelHeight }) => {
                   panelHeight={panelHeight}
                   index={index}
                   isDraft={true}
-                  publishDraftPoll={(poll) => {
+                  publishDraftPoll={async (poll) => {
                     //
-                    RemoveFromDraftPublish(
-                      { pollId: poll.id },
-                      { persist: true }
-                    );
-                    //
-                    publishCreatePoll(
-                      {
-                        id: uuid(),
-                        question: poll.question,
-                        options: poll.options,
-                        timeout: poll.timeout,
-                        hasTimer: poll.hasTimer,
-                        hasCorrectAnswer: poll.hasCorrectAnswer,
-                        isActive: true,
-                        index: polls.length + 1,
-                      },
-                      { persist: true }
-                    );
+                    try {
+                      await RemoveFromDraftPublish(
+                        { pollId: poll.id },
+                        { persist: true }
+                      );
+                      //
+                      await publishCreatePoll(
+                        {
+                          id: uuid(),
+                          question: poll.question,
+                          options: poll.options,
+                          timeout: poll.timeout,
+                          hasTimer: poll.hasTimer,
+                          hasCorrectAnswer: poll.hasCorrectAnswer,
+                          isActive: true,
+                          index: polls.length + 1,
+                        },
+                        { persist: true }
+                      );
+                    } catch (err) {
+                      console.error('publishDraftPoll failed', err);
+                    }
                     setSideBarMode(sideBarModes.POLLS);
                   }}
                 />

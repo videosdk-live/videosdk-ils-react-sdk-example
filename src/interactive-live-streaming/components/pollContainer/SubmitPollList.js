@@ -202,7 +202,7 @@ const SubmitPollListItem = ({ poll }) => {
                   const isCorrectOption = option.isCorrect;
 
                   return (
-                    <div className="flex mb-3">
+                    <div key={option.optionId} className="flex mb-3">
                       <div className="mt-0 w-full">
                         <div className="flex items-center">
                           <p className="text-[15px] text-white font-normal">
@@ -260,14 +260,18 @@ const SubmitPollListItem = ({ poll }) => {
                 })
               : poll?.options.map((option) => {
                   return (
-                    <div className="flex mb-3 items-center">
+                    <div key={option.optionId} className="flex mb-3 items-center">
                       <Input
                         type="checkbox"
-                        onClick={() => {
-                          publish(
-                            { optionId: option.optionId },
-                            { persist: true }
-                          );
+                        onClick={async () => {
+                          try {
+                            await publish(
+                              { optionId: option.optionId },
+                              { persist: true }
+                            );
+                          } catch (err) {
+                            console.error('publish failed', err);
+                          }
                         }}
                         className="bg-transparent rounded-xl h-5 w-5 border-2 border-gray-300 focus:outline-none focus:border-gray-300 focus:ring-0"
                       />

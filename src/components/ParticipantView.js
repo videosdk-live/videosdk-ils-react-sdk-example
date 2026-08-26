@@ -48,12 +48,12 @@ export const CornerDisplayName = ({
   const analyzerSize = isXLDesktop
     ? 32
     : isLGDesktop
-    ? 28
-    : isTab
-    ? 24
-    : isMobile
-    ? 20
-    : 18;
+      ? 28
+      : isTab
+        ? 24
+        : isMobile
+          ? 20
+          : 18;
 
   const show = useMemo(() => mouseOver, [mouseOver]);
 
@@ -74,17 +74,21 @@ export const CornerDisplayName = ({
     let stats = [];
     let audioStats = [];
     let videoStats = [];
-    if (isPresenting) {
-      stats = await getShareStats();
-    } else if (webcamStream) {
-      stats = await getVideoStats();
-    } else if (micStream) {
-      stats = await getAudioStats();
-    }
+    try {
+      if (isPresenting) {
+        stats = await getShareStats();
+      } else if (webcamStream) {
+        stats = await getVideoStats();
+      } else if (micStream) {
+        stats = await getAudioStats();
+      }
 
-    if (webcamStream || micStream || isPresenting) {
-      videoStats = isPresenting ? await getShareStats() : await getVideoStats();
-      audioStats = isPresenting ? [] : await getAudioStats();
+      if (webcamStream || micStream || isPresenting) {
+        videoStats = isPresenting ? await getShareStats() : await getVideoStats();
+        audioStats = isPresenting ? [] : await getAudioStats();
+      }
+    } catch (err) {
+      console.error('getStats failed', err);
     }
 
     // setScore(stats?.score);
@@ -241,8 +245,8 @@ export const CornerDisplayName = ({
               ? `You are presenting`
               : `${nameTructed(displayName, 15)} is presenting`
             : isLocal
-            ? "You"
-            : nameTructed(displayName, 26)}
+              ? "You"
+              : nameTructed(displayName, 26)}
         </p>
       </div>
 
@@ -264,8 +268,8 @@ export const CornerDisplayName = ({
                         score > 7
                           ? "#3BA55D"
                           : score > 4
-                          ? "#faa713"
-                          : "#FF5D5D",
+                            ? "#faa713"
+                            : "#FF5D5D",
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -325,16 +329,16 @@ export const CornerDisplayName = ({
                                   score > 7
                                     ? "#3BA55D"
                                     : score > 4
-                                    ? "#faa713"
-                                    : "#FF5D5D",
+                                      ? "#faa713"
+                                      : "#FF5D5D",
                               }}
                             >
                               <p className="text-sm text-white font-semibold">{`Quality Score : ${
                                 score > 7
                                   ? "Good"
                                   : score > 4
-                                  ? "Average"
-                                  : "Poor"
+                                    ? "Average"
+                                    : "Poor"
                               }`}</p>
 
                               <button
@@ -421,7 +425,18 @@ export function ParticipantView({ participantId }) {
     isLocal,
     mode,
     isActiveSpeaker,
-  } = useParticipant(participantId);
+    setQuality,
+  } = useParticipant(participantId, {
+    onStreamEnabled: (stream) => {
+      if (stream.kind === "video" && !isLocal) {
+        try {
+          setQuality("high");
+        } catch (err) {
+          console.error("setQuality failed", err);
+        }
+      }
+    },
+  });
 
   const micRef = useRef(null);
   const [mouseOver, setMouseOver] = useState(false);
